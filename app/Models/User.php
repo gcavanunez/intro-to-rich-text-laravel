@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Tonysm\RichTextLaravel\Attachables\Attachable;
+use Tonysm\RichTextLaravel\Attachables\AttachableContract;
+use Tonysm\RichTextLaravel\Models\Traits\HasRichText;
 
-class User extends Authenticatable
+class User extends Authenticatable implements AttachableContract
 {
+    const ATTACHABLE_CONTENT_TYPE = 'application/vnd.rich-text-laravel.user-mention+html';
+
+    use Attachable;
     use HasFactory, Notifiable;
+    use HasRichText;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +28,16 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'bio',
+    ];
+
+    /**
+     * The dynamic rich text attributes.
+     *
+     * @var array<int|string, string>
+     */
+    protected $richTextAttributes = [
+        'bio',
     ];
 
     /**
@@ -49,5 +66,17 @@ class User extends Authenticatable
     public function chirps(): HasMany
     {
         return $this->hasMany(Chirp::class);
+    }
+
+    public function richTextRender(array $options = []): string
+    {
+        return view('rich-texts.partials.mention', [
+            'user' => $this,
+        ])->render();
+    }
+
+    public function richTextContentType(): string
+    {
+        return static::ATTACHABLE_CONTENT_TYPE;
     }
 }

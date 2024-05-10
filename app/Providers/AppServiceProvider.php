@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\View\Html\Sanitizer;
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizer;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->scoped(Sanitizer::class, function () {
+            return new Sanitizer(new HtmlSanitizer(
+                (new HtmlSanitizerConfig)
+                    ->allowSafeElements()
+                    ->allowAttribute('class', '*')
+            ));
+        });
     }
 }
