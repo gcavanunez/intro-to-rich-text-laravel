@@ -24,8 +24,13 @@ class ReproductionSamlController extends Controller
         // Logging for testing purposes.
         // if (config('app.env') !== 'testing') {
         // Log::debug('here');
-        Log::debug(['samlUser' => $samlUser]);
+        // Log::debug(['samlUser' => $samlUser]);
         // }
+        try {
+            Log::debug(['samlUser' => $samlUser]);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
 
         $user = User::create([
             'email' => $samlUser->email,

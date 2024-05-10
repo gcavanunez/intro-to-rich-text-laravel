@@ -42,7 +42,8 @@ class ReproductionTest extends TestCase
             ->with('saml2')
             ->andReturn($provider);
 
-        $this->post(route('repro-saml'));
+        $this->post(route('repro-saml'))
+            ->assertRedirect('/dashboard');
 
         $this->assertDatabaseHas('users', [
             'name' => 'Jax Doe',
