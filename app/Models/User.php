@@ -19,17 +19,18 @@ class User extends Authenticatable implements AttachableContract
     use HasFactory, Notifiable;
     use HasRichText;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'bio',
-    ];
+    // /**
+    //  * The attributes that are mass assignable.
+    //  *
+    //  * @var array<int, string>
+    //  */
+    // protected $fillable = [
+    //     'name',
+    //     'email',
+    //     'password',
+    //     'bio',
+    // ];
+    protected $guarded = [];
 
     /**
      * The dynamic rich text attributes.

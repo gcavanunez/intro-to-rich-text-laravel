@@ -4,6 +4,8 @@ use App\Http\Controllers\AttachmentsController;
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\MentionsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReproductionController;
+use App\Http\Controllers\ReproductionSamlController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,5 +33,11 @@ Route::post('attachments', AttachmentsController::class)
 Route::get('mentions', MentionsController::class)
     ->name('mentions.index')
     ->middleware(['auth', 'verified']);
+
+Route::get('repro', ReproductionController::class)
+    ->name('repro');
+
+Route::post('repro-saml', ReproductionSamlController::class)
+    ->name('repro-saml');
 
 require __DIR__.'/auth.php';
